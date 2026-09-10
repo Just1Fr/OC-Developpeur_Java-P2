@@ -8,13 +8,16 @@ public class Main {
         final String SYMPTOMS_FILE_PATH = "data/symptoms.txt";
 		final String RESULT_FILE_PATH = "data/result.out";
 
-		AnalyticsCounter analytics = new AnalyticsCounter(
-			new ReadSymptomDataFromFile(SYMPTOMS_FILE_PATH),
-			new WriteSymptomDataToFile(RESULT_FILE_PATH)
-		);
+		ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile(SYMPTOMS_FILE_PATH);
+		WriteSymptomDataToFile writer = new WriteSymptomDataToFile(RESULT_FILE_PATH);
+		AnalyticsCounter analytics = new AnalyticsCounter(reader, writer);
 
 		List<String> symptoms = analytics.getSymptoms();
-		Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
-		analytics.writeSymptoms(symptomCounts);
+		if (symptoms.isEmpty()) {
+			System.out.println("No symptoms found in the file.");
+		} else {
+			Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
+			analytics.writeSymptoms(symptomCounts);
+		}
     }
 }

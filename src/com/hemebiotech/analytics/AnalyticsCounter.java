@@ -12,15 +12,28 @@ public class AnalyticsCounter {
 	private ISymptomReader reader;
     private ISymptomWriter writer;
 
+	/**
+	 * @param reader ISymptomReader object
+	 * @param writer ISymptomWriter object
+	 */
 	public AnalyticsCounter(ISymptomReader reader, ISymptomWriter writer) {
         this.reader = reader;
         this.writer = writer;
     }
 
+	/**
+	 * If no data is available, return an empty List.
+	 * @return raw listing of all symptoms obtained from a data source, duplicates are possible/probable
+	 */
 	public List<String> getSymptoms() {
 		return reader.getSymptoms();
 	}
 
+	/**
+	 * Counts the occurrences of each symptom in a list of symptoms.
+	 * @param symptoms list of symptoms to count
+	 * @return map with symptoms as keys and their counts as values
+	 */
 	public Map<String, Integer> countSymptoms(List<String> symptoms) {
 		System.out.println("- Symptoms from file:");
 		for (String symptom : symptoms) {
@@ -47,9 +60,14 @@ public class AnalyticsCounter {
 		return result;
 	}
 
-	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+	/**
+	 * Sorts a symptoms map alphabetically.
+	 * @param symptomCounts map with symptoms as keys and their counts as values
+	 * @return sorted symptoms map
+	 */
+	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptomCounts) {
 		TreeMap<String, Integer> sorted = new TreeMap<>();
-		sorted.putAll(symptoms);
+		sorted.putAll(symptomCounts);
 		return sorted;
 	}
 
