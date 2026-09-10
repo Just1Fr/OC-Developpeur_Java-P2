@@ -1,8 +1,7 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.List;
+import java.util.Map;
 
 public class AnalyticsCounter {
 	private static int headacheCount = 0;
@@ -10,31 +9,33 @@ public class AnalyticsCounter {
 	private static int pupilCount = 0;
 
 	public static void main(String args[]) throws Exception {
-		BufferedReader reader = new BufferedReader (new FileReader("data/symptoms.txt"));
-		String line = reader.readLine();
+		String symptomsFilePath = "data/symptoms.txt";
+		String resultFilePath = "data/result.out";
 
-		int i = 0;
-		while (line != null) {
-			i++;
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
+		ReadSymptomDataFromFile reader = new ReadSymptomDataFromFile(symptomsFilePath);
+
+		List<String> symptoms = reader.getSymptoms();
+
+		for (String symptom : symptoms) {
+			System.out.println("symptom from file: " + symptom);
+			if (symptom.equals("headache")) {
 				headacheCount++;
-				System.out.println("number of headaches: " + headacheCount);
 			}
-			else if (line.equals("rash")) {
+			else if (symptom.equals("rash")) {
 				rashCount++;
 			}
-			else if (line.contains("dilated pupils")) {
+			else if (symptom.contains("dilated pupils")) {
 				pupilCount++;
 			}
-
-			line = reader.readLine();
 		}
 
-		FileWriter writer = new FileWriter ("data/result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dilated pupils: " + pupilCount + "\n");
-		writer.close();
+		Map<String, Integer> result = Map.of(
+			"dilated pupils", pupilCount,
+			"headache", headacheCount,
+			"rash", rashCount
+		);
+
+		WriteSymptomDataToFile writer = new WriteSymptomDataToFile(resultFilePath);
+		writer.writeSymptoms(result);
 	}
 }
