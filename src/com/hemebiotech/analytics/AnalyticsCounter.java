@@ -17,6 +17,10 @@ public class AnalyticsCounter {
         this.writer = writer;
     }
 
+	public List<String> getSymptoms() {
+		return reader.getSymptoms();
+	}
+
 	public Map<String, Integer> countSymptoms(List<String> symptoms) {
 		System.out.println("- Symptoms from file:");
 		for (String symptom : symptoms) {
@@ -49,6 +53,10 @@ public class AnalyticsCounter {
 		return sorted;
 	}
 
+	public void writeSymptoms(Map<String, Integer> symptoms) {
+		writer.writeSymptoms(symptoms);
+	}
+
 	public static void main(String args[]) throws Exception {
 		String symptomsFilePath = "data/symptoms.txt";
 		String resultFilePath = "data/result.out";
@@ -58,8 +66,8 @@ public class AnalyticsCounter {
 			new WriteSymptomDataToFile(resultFilePath)
 		);
 
-		List<String> symptoms = analytics.reader.getSymptoms();
+		List<String> symptoms = analytics.getSymptoms();
 		Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
-		analytics.writer.writeSymptoms(symptomCounts);
+		analytics.writeSymptoms(symptomCounts);
 	}
 }
