@@ -56,18 +56,4 @@ public class AnalyticsCounter {
 	public void writeSymptoms(Map<String, Integer> symptoms) {
 		writer.writeSymptoms(symptoms);
 	}
-
-	public static void main(String args[]) throws Exception {
-		String symptomsFilePath = "data/symptoms.txt";
-		String resultFilePath = "data/result.out";
-
-		AnalyticsCounter analytics = new AnalyticsCounter(
-			new ReadSymptomDataFromFile(symptomsFilePath),
-			new WriteSymptomDataToFile(resultFilePath)
-		);
-
-		List<String> symptoms = analytics.getSymptoms();
-		Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
-		analytics.writeSymptoms(symptomCounts);
-	}
 }
