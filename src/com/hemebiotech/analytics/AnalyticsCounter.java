@@ -2,6 +2,7 @@ package com.hemebiotech.analytics;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
 	private static int headacheCount = 0;
@@ -42,6 +43,12 @@ public class AnalyticsCounter {
 		return result;
 	}
 
+	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptoms) {
+		TreeMap<String, Integer> sorted = new TreeMap<>();
+		sorted.putAll(symptoms);
+		return sorted;
+	}
+
 	public static void main(String args[]) throws Exception {
 		String symptomsFilePath = "data/symptoms.txt";
 		String resultFilePath = "data/result.out";
@@ -52,7 +59,7 @@ public class AnalyticsCounter {
 		);
 
 		List<String> symptoms = analytics.reader.getSymptoms();
-		Map<String, Integer> symptomCounts = analytics.countSymptoms(symptoms);
+		Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
 		analytics.writer.writeSymptoms(symptomCounts);
 	}
 }
