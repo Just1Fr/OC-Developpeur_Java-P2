@@ -1,14 +1,11 @@
 package com.hemebiotech.analytics;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;
-	private static int rashCount = 0;
-	private static int pupilCount = 0;
-
 	private ISymptomReader reader;
     private ISymptomWriter writer;
 
@@ -31,47 +28,42 @@ public class AnalyticsCounter {
 
 	/**
 	 * Counts the occurrences of each symptom in a list of symptoms.
-	 * @param symptoms list of symptoms to count
-	 * @return map with symptoms as keys and their counts as values
+	 * @param symptomsList list of symptoms to count
+	 * @return map with symptoms as keys and their count as values
 	 */
-	public Map<String, Integer> countSymptoms(List<String> symptoms) {
+	public Map<String, Integer> countSymptoms(List<String> symptomsList) {
+		HashMap<String, Integer> symptomsCount = new HashMap<String,Integer>();
 		System.out.println("- Symptoms from file:");
-		for (String symptom : symptoms) {
+		for (String symptom : symptomsList) {
 			System.out.println(symptom);
-			if (symptom.equals("headache")) {
-				headacheCount++;
-			}
-			else if (symptom.equals("rash")) {
-				rashCount++;
-			}
-			else if (symptom.contains("dilated pupils")) {
-				pupilCount++;
+			if (symptomsCount.containsKey(symptom)) {
+				symptomsCount.put(symptom, symptomsCount.get(symptom) + 1);
+			} else {
+				symptomsCount.put(symptom, 1);
 			}
 		}
 
-		Map<String, Integer> result = Map.of(
-			"dilated pupils", pupilCount,
-			"headache", headacheCount,
-			"rash", rashCount
-		);
+		System.out.println("- Result: " + symptomsCount);
 
-		System.out.println("- Result: " + result);
-
-		return result;
+		return symptomsCount;
 	}
 
 	/**
 	 * Sorts a symptoms map alphabetically.
-	 * @param symptomCounts map with symptoms as keys and their counts as values
+	 * @param symptomsCount map with symptoms as keys and their count as values
 	 * @return sorted symptoms map
 	 */
-	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptomCounts) {
+	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptomsCount) {
 		TreeMap<String, Integer> sorted = new TreeMap<>();
-		sorted.putAll(symptomCounts);
+		sorted.putAll(symptomsCount);
 		return sorted;
 	}
 
-	public void writeSymptoms(Map<String, Integer> symptoms) {
-		writer.writeSymptoms(symptoms);
+	/**
+     * Write symptoms and their count to a file.
+     * @param symptomsCount map with symptoms as keys and their count as values
+     */
+	public void writeSymptoms(Map<String, Integer> symptomsCount) {
+		writer.writeSymptoms(symptomsCount);
 	}
 }

@@ -18,12 +18,12 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
 
     /**
      * Write symptoms and their count to a file.
-     * @param symptomCounts map with symptoms as keys and their counts as values
+     * @param symptomsCount map with symptoms as keys and their count as values
      */
     @Override
-    public void writeSymptoms(Map<String, Integer> symptomCounts) {
+    public void writeSymptoms(Map<String, Integer> symptomsCount) {
         try (FileWriter writer = new FileWriter(filePath)) {
-            for (Map.Entry<String, Integer> entry : symptomCounts.entrySet()) {
+            for (Map.Entry<String, Integer> entry : symptomsCount.entrySet()) {
                 String line = entry.getKey() + " : " + entry.getValue() + "\n";
                 writer.write(line);
             }

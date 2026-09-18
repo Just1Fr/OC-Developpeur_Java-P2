@@ -12,12 +12,12 @@ public class Main {
 		WriteSymptomDataToFile writer = new WriteSymptomDataToFile(RESULT_FILE_PATH);
 		AnalyticsCounter analytics = new AnalyticsCounter(reader, writer);
 
-		List<String> symptoms = analytics.getSymptoms();
-		if (symptoms.isEmpty()) {
+		List<String> symptomsList = analytics.getSymptoms();
+		if (symptomsList.isEmpty()) {
 			System.out.println("No symptoms found in the file.");
 		} else {
-			Map<String, Integer> symptomCounts = analytics.sortSymptoms(analytics.countSymptoms(symptoms));
-			analytics.writeSymptoms(symptomCounts);
+			Map<String, Integer> symptomsCount = analytics.sortSymptoms(analytics.countSymptoms(symptomsList));
+			analytics.writeSymptoms(symptomsCount);
 		}
     }
 }
