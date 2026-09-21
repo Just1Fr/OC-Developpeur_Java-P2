@@ -3,17 +3,16 @@ package com.hemebiotech.analytics;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 
 public class WriteSymptomDataToFile implements ISymptomWriter {
 
-    private String filePath;
+    private final String FILE_PATH;
 
     /**
 	 * @param filePath full or partial path to the output file
 	 */
     public WriteSymptomDataToFile(String filePath) {
-        this.filePath = Objects.requireNonNull(filePath, "filePath must not be null");
+        this.FILE_PATH = filePath;
     }
 
     /**
@@ -22,13 +21,13 @@ public class WriteSymptomDataToFile implements ISymptomWriter {
      */
     @Override
     public void writeSymptoms(Map<String, Integer> symptomsCount) {
-        try (FileWriter writer = new FileWriter(filePath)) {
+        try (FileWriter writer = new FileWriter(FILE_PATH)) {
             for (Map.Entry<String, Integer> entry : symptomsCount.entrySet()) {
                 String line = entry.getKey() + " : " + entry.getValue() + "\n";
                 writer.write(line);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("Error while writing symptoms count file");
         }
     }
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private ISymptomReader reader;
-    private ISymptomWriter writer;
+	private final ISymptomReader reader;
+    private final ISymptomWriter writer;
 
 	/**
 	 * @param reader ISymptomReader object
@@ -32,18 +32,14 @@ public class AnalyticsCounter {
 	 * @return map with symptoms as keys and their count as values
 	 */
 	public Map<String, Integer> countSymptoms(List<String> symptomsList) {
-		HashMap<String, Integer> symptomsCount = new HashMap<String,Integer>();
-		System.out.println("- Symptoms from file:");
+		HashMap<String, Integer> symptomsCount = new HashMap<>();
 		for (String symptom : symptomsList) {
-			System.out.println(symptom);
 			if (symptomsCount.containsKey(symptom)) {
 				symptomsCount.put(symptom, symptomsCount.get(symptom) + 1);
 			} else {
 				symptomsCount.put(symptom, 1);
 			}
 		}
-
-		System.out.println("- Result: " + symptomsCount);
 
 		return symptomsCount;
 	}
@@ -54,9 +50,7 @@ public class AnalyticsCounter {
 	 * @return sorted symptoms map
 	 */
 	public Map<String, Integer> sortSymptoms(Map<String, Integer> symptomsCount) {
-		TreeMap<String, Integer> sorted = new TreeMap<>();
-		sorted.putAll(symptomsCount);
-		return sorted;
+		return new TreeMap<>(symptomsCount);
 	}
 
 	/**
