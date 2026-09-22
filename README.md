@@ -1,1 +1,15 @@
-# Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application
+# Débuggez une application Java
+
+## Usage
+
+- Compile
+
+```console
+javac -d target src/com/hemebiotech/analytics/*.java
+```
+
+- Execute
+
+```console
+java -cp "src;target" com.hemebiotech.analytics.Main
+```
